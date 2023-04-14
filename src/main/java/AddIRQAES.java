@@ -18,6 +18,7 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -119,7 +120,11 @@ public class AddIRQAES {
 
     public static void addESIRQA() throws IOException {
         String index = "irqa_yang";
+        String outPath = "./outProgress.txt";
+        File outFile = new File(outPath);
+        FileWriter fileWriter = new FileWriter(outFile, false);
         List<String> pathList = Arrays.asList("./biology", "./chemistry", "./english", "./geo", "./history", "./physics", "./politics", "./chinese", "./all");
+        int acc = 0;
         for(String path : pathList) {
             File file = new File(path);
             if(file.isDirectory()) {
@@ -130,16 +135,24 @@ public class AddIRQAES {
                     int count = 0;
                     for(String content : contents) {
                         count++;
+                        acc++;
                         IRQA irqa = JSON.parseObject(content, IRQA.class);
                         IndexResponse indexResponse2 = client.index(b -> b
                                 .index(index)
                                 .document(irqa)
                         );
+                        if(acc >= 1000) {
+                            acc = 0;
+                            fileWriter.write("当前：" + name + "，进度：" + count + "/" + contents.size());
+                            fileWriter.flush();
+                        }
+
                         System.out.println("当前：" + name + "，进度：" + count + "/" + contents.size());
                     }
                 }
             }
         }
+        fileWriter.close();
     }
 
 
