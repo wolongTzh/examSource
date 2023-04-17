@@ -6,6 +6,7 @@ import co.elastic.clients.transport.rest_client.RestClientTransport;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import model.ExamSource;
 import model.IRQA;
 import org.apache.http.HttpHost;
@@ -20,12 +21,11 @@ import org.elasticsearch.client.RestClientBuilder;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class AddIRQAES {
 
     static ElasticsearchClient client;
@@ -143,11 +143,10 @@ public class AddIRQAES {
                         );
                         if(acc >= 1000) {
                             acc = 0;
-                            fileWriter.write("当前：" + name + "，进度：" + count + "/" + contents.size());
+                            fileWriter.write("当前：" + name + "，进度：" + count + "/" + contents.size() + "\n");
+                            log.info("当前：" + name + "，进度：" + count + "/" + contents.size());
                             fileWriter.flush();
                         }
-
-                        System.out.println("当前：" + name + "，进度：" + count + "/" + contents.size());
                     }
                 }
             }
