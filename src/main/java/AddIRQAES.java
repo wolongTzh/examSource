@@ -119,11 +119,11 @@ public class AddIRQAES {
     }
 
     public static void addESIRQA() throws IOException {
-        String index = "irqa_yang";
+        String index = "irqa_all";
         String outPath = "./outProgress.txt";
         File outFile = new File(outPath);
         FileWriter fileWriter = new FileWriter(outFile, false);
-        List<String> pathList = Arrays.asList("./biology", "./chemistry", "./english", "./geo", "./history", "./physics", "./politics", "./chinese", "./all");
+        List<String> pathList = Arrays.asList("./biology", "./chemistry", "./english", "./geo", "./history", "./physics", "./politics", "./chinese", "./all", "old");
         int acc = 0;
         for(String path : pathList) {
             File file = new File(path);
