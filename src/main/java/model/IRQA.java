@@ -9,6 +9,7 @@ public class IRQA {
     String value;
 
     String all;
+    String all_stand;
 
     public String getSubject() {
         return subject;
@@ -40,5 +41,13 @@ public class IRQA {
 
     public void setAll(String all) {
         this.all = all;
+    }
+
+    public String getAll_stand() {
+        return all_stand;
+    }
+
+    public void setAll_stand(String all_stand) {
+        this.all_stand = all_stand;
     }
 }
