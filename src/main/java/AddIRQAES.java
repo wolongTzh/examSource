@@ -119,7 +119,7 @@ public class AddIRQAES {
     }
 
     public static void addESIRQA() throws IOException {
-        String index = "irqa_all_stand";
+        String index = "irqa_all";
         String outPath = "./outProgress.txt";
         File outFile = new File(outPath);
         FileWriter fileWriter = new FileWriter(outFile, false);
