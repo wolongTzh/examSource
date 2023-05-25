@@ -8,6 +8,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import model.ExamSource;
 import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
@@ -24,6 +26,7 @@ public class ExamESGenerator {
 
     public static void init() {
         final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("elastic", "5Vc8fC8kjJNiT=SYZFKF"));
         RestClientBuilder restClientBuilder = RestClient.builder(new HttpHost("47.94.201.245", 9200, "http"))
                 .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
                     @Override
@@ -85,7 +88,7 @@ public class ExamESGenerator {
     }
 
     public static void addES() throws IOException {
-        String index = "examsource";
+        String index = "examresource";
         Map<String, JSONObject> map = ContentExtractor.readRawJson();
         for(Map.Entry entry : map.entrySet()) {
             String name = entry.getKey().toString();

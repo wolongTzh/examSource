@@ -95,7 +95,7 @@ public class ContentExtractor {
         }
         reader.close();
         String jsonStr = sb.toString();
-        return JSON.parseObject(jsonStr);
+        return JSON.parseObject(jsonStr.replace("\\\\n", "||"));
     }
 
     public static void loadImgs(String sourcePath) throws IOException {
@@ -111,11 +111,11 @@ public class ContentExtractor {
     }
 
     public static void batchReader() throws IOException {
-        String jsonPath = "C:\\Users\\feifei\\Desktop\\Gaokao\\json";
-        String imgPath = "C:\\Users\\feifei\\Desktop\\Gaokao\\img";
+        String jsonPath = "C:\\工作资料\\技术相关\\Gaokao\\json";
+        String imgPath = "C:\\工作资料\\技术相关\\Gaokao\\img";
         File file1 = new File(jsonPath);
         StringBuilder builder = new StringBuilder();
-        String outputPath = "C:\\Users\\feifei\\Desktop\\Gaokao\\uriOut.json";
+        String outputPath = "C:\\工作资料\\技术相关\\Gaokao\\uriOut.json";
         FileWriter fileWriter = new FileWriter(outputPath);
         //判断是否有目录
         if(file1.isDirectory()) {
@@ -157,7 +157,7 @@ public class ContentExtractor {
 
     public static Map<String, JSONObject> readRawJson() throws IOException {
         Map<String, JSONObject> map = new HashMap<>();
-        String jsonPath = "C:\\Users\\feifei\\Desktop\\Gaokao\\json";
+        String jsonPath = "C:\\工作资料\\技术相关\\Gaokao\\json";
         File file1 = new File(jsonPath);
         //判断是否有目录
         if(file1.isDirectory()) {

@@ -1,3 +1,5 @@
+package utils;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -102,6 +104,25 @@ public class CommonUtil {
         return (Map) JSON.parseObject(JSON.toJSONString(jsonObject));
     }
 
+    public static void failedRecord(String content) throws IOException {
+        File file = new File("./failedRecord.txt");
+        if(!file.exists()){
+            file.createNewFile();
+        }
+        FileWriter fileWriter = new FileWriter(file.getName(),true);
+        fileWriter.write(content);
+        fileWriter.flush();
+        fileWriter.close();
+    }
+
+    public static List<String> readDir(String dirName) {
+        File file = new File(dirName);
+        if(file.isDirectory()) {
+            return Arrays.asList(file.list());
+        }
+        return null;
+    }
+
     /**
      * load系列
      * 加载文件里的内容，在程序启动时执行
@@ -121,25 +142,6 @@ public class CommonUtil {
             logger.error("reading static file failed !");
         }
         return map;
-    }
-
-    public static void failedRecord(String content) throws IOException {
-        File file = new File("./failedRecord.txt");
-        if(!file.exists()){
-            file.createNewFile();
-        }
-        FileWriter fileWriter = new FileWriter(file.getName(),true);
-        fileWriter.write(content);
-        fileWriter.flush();
-        fileWriter.close();
-    }
-
-    public static List<String> readDir(String dirName) {
-        File file = new File(dirName);
-        if(file.isDirectory()) {
-            return Arrays.asList(file.list());
-        }
-        return null;
     }
 
     public static List<String> readTextInResource(InputStreamReader inputStreamReader) throws IOException {

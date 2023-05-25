@@ -12,7 +12,7 @@ import java.util.List;
 public class ElasticSearchExporter {
 
     public static void main(String[] args) throws Exception {
-        List<String> ls = Arrays.asList("all");
+        List<String> ls = Arrays.asList("irqa");
         for(String l : ls) {
             request(l);
         }
@@ -24,7 +24,7 @@ public class ElasticSearchExporter {
         String path = "./" + name + "_es_out.txt";
         File file = new File(path);
         FileWriter fileWritter = new FileWriter(file.getName(),false);
-        String url = "http://59.64.36.101:9200/" + index +  "/_search?scroll=5m";
+        String url = "http://47.94.201.245:9200/" + index +  "/_search?scroll=5m";
 
         // 发送 HTTP GET 请求
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
@@ -49,20 +49,25 @@ public class ElasticSearchExporter {
         String record = "";
         for(int i=0; i<contentArray.size(); i++) {
             JSONObject content = contentArray.getJSONObject(i).getJSONObject("_source");
+            JSONObject needWrite = new JSONObject();
+            needWrite.put("predicate", null);
+            needWrite.put("subject", null);
+            needWrite.put("value", content.get("content"));
+            needWrite.put("all", content.get("content"));
             // 打印响应数据
-            record += JSON.toJSONString(content) + "\n";
+            record += JSON.toJSONString(needWrite) + "\n";
         }
         fileWritter.write(record);
         fileWritter.flush();
 
         String scrollId = (String) jsonObject.get("_scroll_id");
-        int totalSize = (int) jsonObject.getJSONObject("hits").get("total");
+        int totalSize = 383867;
         int curSize = 10000;
         int acc = 10000;
         while (curSize < totalSize) {
             record = "";
 
-            url = "http://59.64.36.101:9200/_search/scroll";
+            url = "http://47.94.201.245:9200/_search/scroll";
             // 发送 HTTP GET 请求
             connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setRequestMethod("POST");
@@ -85,8 +90,13 @@ public class ElasticSearchExporter {
             contentArray = jsonObject.getJSONObject("hits").getJSONArray("hits");
             for(int i=0; i<contentArray.size(); i++) {
                 JSONObject content = contentArray.getJSONObject(i).getJSONObject("_source");
+                JSONObject needWrite = new JSONObject();
+                needWrite.put("predicate", null);
+                needWrite.put("subject", null);
+                needWrite.put("value", content.get("content"));
+                needWrite.put("all", content.get("content"));
                 // 打印响应数据
-                record += JSON.toJSONString(content) + "\n";
+                record += JSON.toJSONString(needWrite) + "\n";
             }
             fileWritter.write(record);
             fileWritter.flush();
