@@ -137,6 +137,7 @@ public class AddIRQAES {
                         count++;
                         acc++;
                         IRQA irqa = JSON.parseObject(content, IRQA.class);
+                        irqa.setAllStand(irqa.getAll());
                         IndexResponse indexResponse2 = client.index(b -> b
                                 .index(index)
                                 .document(irqa)
