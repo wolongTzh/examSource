@@ -23,4 +23,12 @@ public class RegularSliceTextUtil {
         }
         return resultList;
     }
+
+    public static String getHtmlTagInner(String source) {
+        Pattern pattern = Pattern.compile(">.*?<");
+        Matcher matcher = pattern.matcher(source);
+        matcher.find();
+        String ret = matcher.group();
+        return ret.replace(">", "").replace("<", "");
+    }
 }
