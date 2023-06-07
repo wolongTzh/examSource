@@ -11,7 +11,7 @@ import java.util.List;
 public class EpubExtractor {
 
     public static void readEpub() throws IOException {
-        String baseEpubPath = "/data/epub";
+        String baseEpubPath = "/data/textbook";
         String outPath = "./bookOut.json";
         String failedPath = "./failedRecord.txt";
         File file = new File(outPath);
