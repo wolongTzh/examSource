@@ -23,6 +23,10 @@ public class EpubExtractor {
         for(String subDir : dirList) {
             count++;
             String curPath = baseEpubPath + "/" + subDir;
+            if(!new File(curPath).isDirectory()) {
+                log.info(curPath + " is not a dir!");
+                continue;
+            }
             log.info("current progress: " + count + "/" + dirList.size() + " name = " + curPath);
             List<String> coverMsg = CommonUtil.readPlainTextFile(curPath + "/Content.opf");
             TextBook textBook = extractBaseMsg(coverMsg);
