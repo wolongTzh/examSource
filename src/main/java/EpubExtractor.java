@@ -27,6 +27,9 @@ public class EpubExtractor {
                 log.info(curPath + " is not a dir!");
                 continue;
             }
+            if(new File(curPath + "/OEBPS").exists()) {
+                curPath += "/OEBPS";
+            }
             log.info("current progress: " + count + "/" + dirList.size() + " name = " + curPath);
             List<String> coverMsg = CommonUtil.readPlainTextFile(curPath + "/Content.opf");
             TextBook textBook = extractBaseMsg(coverMsg);
