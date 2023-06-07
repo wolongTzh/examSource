@@ -23,6 +23,7 @@ public class EpubExtractor {
         for(String subDir : dirList) {
             count++;
             String curPath = baseEpubPath + "/" + subDir;
+            log.info("current progress: " + count + "/" + dirList.size() + " name = " + curPath);
             List<String> coverMsg = CommonUtil.readPlainTextFile(curPath + "/Content.opf");
             TextBook textBook = extractBaseMsg(coverMsg);
             for(String htmlName : CommonUtil.readDir(curPath + "/Text")) {
@@ -41,7 +42,6 @@ public class EpubExtractor {
                     fileWriter1.flush();
                 }
             }
-            log.info("current progress: " + count + "/" + dirList.size());
         }
         fileWriter.close();
         fileWriter1.close();
