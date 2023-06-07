@@ -13,8 +13,11 @@ public class EpubExtractor {
     public static void readEpub() throws IOException {
         String baseEpubPath = "/data/epub";
         String outPath = "./bookOut.json";
+        String failedPath = "./failedRecord.txt";
         File file = new File(outPath);
+        File file1 = new File(failedPath);
         FileWriter fileWriter = new FileWriter(file.getName());
+        FileWriter fileWriter1 = new FileWriter(file1.getName());
         List<String> dirList = CommonUtil.readDir(baseEpubPath);
         int count = 0;
         for(String subDir : dirList) {
@@ -23,18 +26,25 @@ public class EpubExtractor {
             List<String> coverMsg = CommonUtil.readPlainTextFile(curPath + "/Content.opf");
             TextBook textBook = extractBaseMsg(coverMsg);
             for(String htmlName : CommonUtil.readDir(curPath + "/Text")) {
-                if(!htmlName.contains("Chapter") || htmlName.contains(".swp")) {
-                    continue;
+                try {
+                    if(!htmlName.contains("Chapter") || htmlName.contains(".swp")) {
+                        continue;
+                    }
+                    textBook.setHtmlName("./epub/" + subDir + "/Text/" + htmlName);
+                    List<String> content = CommonUtil.readPlainTextFile(curPath + "/Text/" + htmlName);
+                    textBook.setHtml(String.join("", content));
+                    fileWriter.write(JSON.toJSONString(textBook) + "\n");
+                    fileWriter.flush();
                 }
-                textBook.setHtmlName("./epub/" + subDir + "/Text/" + htmlName);
-                List<String> content = CommonUtil.readPlainTextFile(curPath + "/Text/" + htmlName);
-                textBook.setHtml(String.join("", content));
-                fileWriter.write(JSON.toJSONString(textBook) + "\n");
-                fileWriter.flush();
+                catch (Exception e) {
+                    fileWriter1.write(baseEpubPath + "/" + subDir + "/Text/" + htmlName + "\n");
+                    fileWriter1.flush();
+                }
             }
             log.info("current progress: " + count + "/" + dirList.size());
         }
         fileWriter.close();
+        fileWriter1.close();
     }
 
     public static TextBook extractBaseMsg(List<String> coverMsg) {
