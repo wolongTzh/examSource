@@ -48,7 +48,7 @@ public class AddEpubBook {
     }
 
     public static void addEpub() throws IOException {
-        String index = "newBook";
+        String index = "new_book";
         String inputPath = "./bookOut.json";
         List<String> contents = CommonUtil.readPlainTextFile(inputPath);
         int count = 0;
