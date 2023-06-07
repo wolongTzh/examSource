@@ -26,6 +26,9 @@ public class EpubExtractor {
             log.info("current progress: " + count + "/" + dirList.size() + " name = " + curPath);
             List<String> coverMsg = CommonUtil.readPlainTextFile(curPath + "/Content.opf");
             TextBook textBook = extractBaseMsg(coverMsg);
+            if(!new File(curPath + "/Text").exists()) {
+                log.info(curPath + " is not exist!");
+            }
             for(String htmlName : CommonUtil.readDir(curPath + "/Text")) {
                 try {
                     if(!htmlName.contains("Chapter") || htmlName.contains(".swp")) {
