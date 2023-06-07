@@ -28,6 +28,7 @@ public class EpubExtractor {
             TextBook textBook = extractBaseMsg(coverMsg);
             if(!new File(curPath + "/Text").exists()) {
                 log.info(curPath + " is not exist!");
+                continue;
             }
             for(String htmlName : CommonUtil.readDir(curPath + "/Text")) {
                 try {
